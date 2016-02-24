@@ -1,0 +1,22 @@
+{
+    "name": "suard/hvcscrapper",
+    "description": "Scrapper that scraps the trash calendar HVC",
+    "type": "library",
+    "require": {
+        "fabpot/goutte": "^3.1",
+        "nesbot/carbon": "^1.21"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Suard Damme",
+            "email": "suardd@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Suard\\HvcScrapper\\": "src"
+        }
+    },
+    "minimum-stability": "dev"
+}
