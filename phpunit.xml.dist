@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+         bootstrap="vendor/autoload.php"
+         >
+    <testsuites>
+        <testsuite name="HvcScrapper Test Suite" color="true">
+            <directory>src/tests/</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/tests/</directory>
+        </whitelist>
+    </filter>
+</phpunit>
