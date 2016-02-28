@@ -68,6 +68,13 @@ class HvcParams
      */
     private function validateHouseNumber()
     {
+        // check if first character is an integer
+        if((string)(int)$this->houseno[0] != $this->houseno[0])
+        {
+            return false;
+        }
+
+        // pregmatch that checks alfanumeric
         if (preg_match('/^[a-zA-Z0-9]*$/', $this->houseno, $matches))
         {
             return true;

@@ -56,7 +56,7 @@ class HvcScrapper
      *
      * @return string
      */
-    public function scrapCalendarItems()
+    public function scrap()
     {
         $items = [];
         $crawler = $this->scrapHvc();
