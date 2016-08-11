@@ -25,7 +25,7 @@ class HvcParams
     /**
      * Constructor of the HvcParams object.
      *
-     * @param string $postalCode, a dutch postalcode
+     * @param string $postalCode , a dutch postalcode
      * @param string $houseno
      * @throws \Exception Exception
      */
@@ -34,13 +34,11 @@ class HvcParams
         $this->postalcode = strtoupper(trim($postalCode));
         $this->houseno = trim($houseno);
 
-        if(!$this->validatePostalcode())
-        {
+        if (!$this->validatePostalcode()) {
             throw new \Exception(sprintf('Postalcode % is not valid', $this->postalcode));
         }
 
-        if(!$this->validateHouseNumber())
-        {
+        if (!$this->validateHouseNumber()) {
             throw new \Exception(sprintf('Housenumber % is not valid', $this->houseno));
         }
     }
@@ -52,8 +50,7 @@ class HvcParams
      */
     private function validatePostalcode()
     {
-        if (preg_match('~\A[1-9]\d{3}?[a-zA-Z]{2}\z~', $this->postalcode, $matches))
-        {
+        if (preg_match('~\A[1-9]\d{3}?[a-zA-Z]{2}\z~', $this->postalcode, $matches)) {
             return true;
         }
 
@@ -69,14 +66,12 @@ class HvcParams
     private function validateHouseNumber()
     {
         // check if first character is an integer
-        if((string)(int)$this->houseno[0] != $this->houseno[0])
-        {
+        if ((string)(int)$this->houseno[0] != $this->houseno[0]) {
             return false;
         }
 
         // pregmatch that checks alfanumeric
-        if (preg_match('/^[a-zA-Z0-9]*$/', $this->houseno, $matches))
-        {
+        if (preg_match('/^[a-zA-Z0-9]*$/', $this->houseno, $matches)) {
             return true;
         }
 
