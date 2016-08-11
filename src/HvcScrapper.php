@@ -12,7 +12,6 @@ use Carbon\Carbon;
  */
 class HvcScrapper
 {
-
     /**
      * The start url
      *
@@ -226,6 +225,4 @@ class HvcScrapper
         preg_match_all('!\d+!', $day, $matches);
         return Carbon::create($year, $month, implode('', $matches[0]), 0, 0, 0, 'Europe/Amsterdam');
     }
-
-
 }
