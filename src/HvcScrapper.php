@@ -135,7 +135,7 @@ class HvcScrapper
 
         foreach ($collections as $collection) {
             $item = new \stdClass();
-            $item->postcode = $this->hvcParams->postalcode;
+            $item->postalcode = $this->hvcParams->postalcode;
             $item->houseno = $this->hvcParams->houseno;
             $item->date = $date;
             $item->type = strtolower($collection);
