@@ -62,20 +62,16 @@ class HvcScrapper
         $crawler = $this->scrapHvc();
         $i = 1;
 
-        $crawler->filter('div[id=content] table')->each(function ($node) use (&$i, &$items)
-        {
+        $crawler->filter('div[id=content] table')->each(function ($node) use (&$i, &$items) {
             // the first 12 tables are the months
-            if ($i > 12)
-            {
+            if ($i > 12) {
                 return;
             }
 
             // loop through the columns
-            $node->filter('tr td')->each(function($colNode) use (&$i, &$items)
-            {
+            $node->filter('tr td')->each(function ($colNode) use (&$i, &$items) {
                 // check if the node must get scrapped
-                if (!$this->getHvcWeek($colNode->attr('header')) || $colNode->attr('class') == 'inactive')
-                {
+                if (!$this->getHvcWeek($colNode->attr('header')) || $colNode->attr('class') == 'inactive') {
                     return;
                 }
 
@@ -106,24 +102,20 @@ class HvcScrapper
 
         // submit the form
         $form = $crawler->filter('form[id=woning]')->form();
-        $form->setValues(['postcode' => $this->formatPostcode($this->hvcParams->postalcode), 'huisnummer' => $this->hvcParams->houseno]);
+        $form->setValues(['postcode' => $this->formatPostalcode($this->hvcParams->postalcode), 'huisnummer' => $this->hvcParams->houseno]);
         $crawler = $client->submit($form);
 
-        // check if postcode has trash collections
-        if (in_array($client->getHistory()->current()->getUri(), $this->hvcFalseUrls))
-        {
+        // check if postalcode has trash collections
+        if (in_array($client->getHistory()->current()->getUri(), $this->hvcFalseUrls)) {
             throw new \Exception(sprintf('The postalcode %s with house number %s gives no results', $this->hvcParams->postalcode, $this->hvcParams->houseno));
         }
 
         // this is not fully being used
-        if ($this->period === 'year')
-        {
+        if ($this->period === 'year') {
             // select the year
             $link = $crawler->selectLink('Jaar')->link();
             $crawler = $client->click($link);
-        }
-        else
-        {
+        } else {
             throw new \Exception("Only year is allowed specifying the year variable");
         }
 
@@ -142,8 +134,7 @@ class HvcScrapper
         $items = [];
         $collections = $this->scrapTypes($node);
 
-        foreach ($collections as $collection)
-        {
+        foreach ($collections as $collection) {
             $item = new \stdClass();
             $item->postcode = $this->hvcParams->postalcode;
             $item->houseno = $this->hvcParams->houseno;
@@ -165,8 +156,7 @@ class HvcScrapper
     {
         $types = [];
 
-        $node->filterXPath('//a')->each(function ($trashNode) use (&$types)
-        {
+        $node->filterXPath('//a')->each(function ($trashNode) use (&$types) {
             $types[] = trim($trashNode->attr('title'));
         });
 
@@ -181,9 +171,8 @@ class HvcScrapper
      */
     private function getHvcWeek($var)
     {
-        if (strpos($var, 'week_') !== false)
-        {
-            return (int) str_replace('week_', '', $var);
+        if (strpos($var, 'week_') !== false) {
+            return (int)str_replace('week_', '', $var);
         }
 
         return false;
@@ -209,19 +198,17 @@ class HvcScrapper
     }
 
     /**
-     * Format the postcode for service and returns it for further use.
+     * Format the postalcode for service and returns it for further use.
      *
      * @todo check if this function is needed!
-     * @param string $postcode
+     * @param string $postalcode
      * @return mixed
      */
-    private function formatPostcode($postcode)
+    private function formatPostalcode($postalcode)
     {
-        try
-        {
-            return strtoupper(sprintf('%s%s', substr($postcode, 0, 4), substr($postcode, 4, 2)));
-        } catch (Exception $ex)
-        {
+        try {
+            return strtoupper(sprintf('%s%s', substr($postalcode, 0, 4), substr($postalcode, 4, 2)));
+        } catch (Exception $ex) {
             return false;
         }
     }
@@ -240,5 +227,5 @@ class HvcScrapper
         return Carbon::create($year, $month, implode('', $matches[0]), 0, 0, 0, 'Europe/Amsterdam');
     }
 
-   
+
 }
